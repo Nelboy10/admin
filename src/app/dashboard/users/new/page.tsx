@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/firebase/config';
 import { useRouter } from 'next/navigation';
 
@@ -22,7 +22,8 @@ export default function NewUserPage() {
     try {
       await addDoc(collection(db, 'users'), {
         name,
-        email
+        email,
+        createdAt: serverTimestamp(), // 🆕 Ajout de la date d’enregistrement
       });
       router.push('/dashboard/users');
     } catch (err) {
